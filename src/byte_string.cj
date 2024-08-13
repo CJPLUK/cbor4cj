@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ */
+package cbor4cj
+
+
+public class ByteString <: ChunkableDataItem {
+    private let bytes: Array<UInt8>
+
+    public init(bytes: ?Array<UInt8>) {
+        super(MajorType.BYTE_STRING)
+        if (bytes.isNone()) {
+            this.bytes = Array<UInt8>()
+        } else {
+            this.bytes = bytes.getOrThrow()
+        }
+    }
+
+    public func getBytes(): Array<UInt8> {
+        if (bytes.isEmpty()) {
+            return Array<UInt8>()
+        } else {
+            return bytes
+        }
+    }
+
+    public override func equals(object: Object): Bool {
+        if (object is ByteString) {
+            let other = (object as ByteString).getOrThrow()
+            return super.equals(object) && (bytes == other.bytes)
+        }
+        return false
+    }
+}
+

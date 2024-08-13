@@ -1,0 +1,17 @@
+.cache/
+.vscode/
+target/
+cjpm.lock
+*.macrocall
+test_temp/
+test/tmp/
+test/report/
+test/log/
+ci_test/
+*.gcda
+*.gcno
+ci_lib/
+bin/
+.cjpm-history
+module-lock.json
+report/
