@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ */
+package cbor4cj
+
+public class ByteStringBuilder<T> <: AbstractBuilder<T> where T <: AbstractBuilder<T> {
+    public init(parent: T) {
+        super(parent)
+    }
+
+    public func add(bytes: Array<UInt8>): ByteStringBuilder<T> {
+        getParent().getOrThrow().addChunk(convert(bytes))
+        return this
+    }
+
+    public func end(): ?T {
+        getParent().getOrThrow().addChunk(SimpleValue.BREAK)
+        return getParent()
+    }
+}

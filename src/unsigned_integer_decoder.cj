@@ -1,0 +1,17 @@
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ */
+package cbor4cj
+
+import std.io.InputStream
+
+
+public class UnsignedIntegerDecoder <: AbstractDecoder<UnsignedInteger> {
+    public init(decoder: CborDecoder, inputStream: InputStream) {
+        super(decoder, inputStream)
+    }
+
+    public override func decode(initialByte: Int32): UnsignedInteger {
+        return UnsignedInteger(getLengthAsBigInteger(initialByte))
+    }
+}
