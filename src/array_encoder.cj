@@ -22,6 +22,3 @@ public class ArrayEncoder <: AbstractEncoder<CborArray> {
         }
     }
 }
-
-// public open class Array {
-// }

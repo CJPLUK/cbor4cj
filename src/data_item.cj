@@ -68,10 +68,4 @@ public open class DataItem <: Hashable & Equatable<DataItem> {
         }
         return (Int64(majorType.getValue()) + tag.getOrThrow().getValue()).hashCode()
     }
-
-    protected func assertTrue(condition: Bool, message: String): Unit {
-        if (!condition) {
-            throw IllegalArgumentException(message)
-        }
-    }
 }
