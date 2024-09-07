@@ -15,7 +15,7 @@ cbor4cj是简明二进制对象表示法(Cbor)的Cangjie语言实现。
 ##### 1.1 主要接口
 
 ```cangjie
-public class CborDecoder {
+public class CborEncoder {
     /*
      * 初始化 Cbor 编码器
      * 参数 outputStream - 编码数据输出流
@@ -272,29 +272,6 @@ public open class AbstractFloat <: Special {
     public override func equals(object: Object): Bool
 }
 
-public class AdditionalInformation <: Enum<AdditionalInformation>{
-    public static let DIRECT
-    public static let ONE_BYTE
-    public static let TWO_BYTES
-    public static let FOUR_BYTES
-    public static let EIGHT_BYTES
-    public static let RESERVED
-    public static let INDEFINITE
-
-    /*
-     * 获取当前对象Value值
-     * 返回值 Int32 - Value值
-     */
-    public func getValue(): Int32
-
-    /*
-     * 根据数值获取对应AdditionalInformation对象
-     * 返回值 b - Int32值
-     * 返回值 AdditionalInformation - AdditionalInformation对象
-     */
-    public static func ofByte(b: Int32): AdditionalInformation
-}
-
 public class ArrayBuilder<T> <: AbstractBuilder<T> {
     /*
      * 初始化
@@ -383,37 +360,6 @@ public class ArrayBuilder<T> <: AbstractBuilder<T> {
     public func end(): ?T
 }
 
-public class ArrayDecoder <: AbstractDecoder<CborArray> {
-    /*
-     * 初始化
-     * 参数 decoder - CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 参数 initialByte - 初始字节
-     * 返回值 CborArray - 解码后的CborArray
-     */
-    public override func decode(initialByte: Int32): CborArray
-}
-
-public class ArrayEncoder <: AbstractEncoder<CborArray> {
-    /*
-     * 初始化
-     * 参数 encoder - CborEncoder
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 array - 编码数据
-     */
-    public override func encode(array: CborArray): Unit 
-}
-
 public open class CborArray <: ChunkableDataItem {
     /*
      * 初始化
@@ -421,7 +367,7 @@ public open class CborArray <: ChunkableDataItem {
     public init()
 
     /*
-     * 添加元素
+     * 添加 DataItem 类型元素
      * 参数 object - DataItem元素
      * 参数 CborArray - CborArray
      */
@@ -461,37 +407,6 @@ public class ByteStringBuilder<T> <: AbstractBuilder<T> where T <: AbstractBuild
     public func end(): ?T
 }
 
-public class ByteStringDecoder <: AbstractDecoder<ByteString> {
-    /*
-     * 初始化
-     * 参数 decoder - CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 参数 initialByte - 初始字节
-     * 返回值 ByteString - 解码后的ByteString
-     */
-    public override func decode(initialByte: Int32): ByteString
-}
-
-public class ByteStringEncoder <: AbstractEncoder<ByteString> {
-    /*
-     * 初始化
-     * 参数 encoder - CborEncoder
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 byteString - 编码数据类
-     */
-    public override func encode(byteString: ByteString): Unit
-}
-
 public class ByteString <: ChunkableDataItem {
     /*
      * 初始化
@@ -501,9 +416,9 @@ public class ByteString <: ChunkableDataItem {
 
     /*
      * 获取 Array<UInt8>
-     * 返回值 Array<UInt8> - 获取的值
+     * 返回值 ?Array<UInt8> - 获取的值
      */
-    public func getBytes(): Array<UInt8>
+    public func getBytes(): ?Array<UInt8>
 
     /*
      * 对象判等
@@ -531,82 +446,82 @@ public class CborBuilder <: AbstractBuilder<CborBuilder> {
     public func build(): LinkedList<DataItem>
 
     /*
-     * 添加元素
+     * 添加 DataItem 类型元素
      * 参数 dataItem - DataItem值
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(dataItem: DataItem): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 Int64 类型元素
      * 参数 value - Int64
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(value: Int64): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 BigInt 类型元素
      * 参数 value - BigInt
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(value: BigInt): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 Bool 类型元素
      * 参数 value - Bool
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(value: Bool): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 Float32 类型元素
      * 参数 value - Float32
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(value: Float32): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 Float64 类型元素
      * 参数 value - Float64
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(value: Float64): CborBuilder 
 
     /*
-     * 添加元素
+     * 添加 Array<UInt8> 类型元素
      * 参数 bytes - Array<UInt8>
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(bytes: Array<UInt8>): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 ByteString 类型元素
      * 返回值 ByteStringBuilder<CborBuilder> - ByteStringBuilder<CborBuilder>
      */
     public func startByteString(): ByteStringBuilder<CborBuilder>
 
     /*
-     * 添加元素
+     * 添加 ByteString 类型元素
      * 参数 bytes - Array<UInt8>
      * 返回值 ByteStringBuilder<CborBuilder> - ByteStringBuilder<CborBuilder>
      */
     public func startByteString(bytes: ?Array<UInt8>): ByteStringBuilder<CborBuilder>
 
     /*
-     * 添加元素
+     * 添加 String 类型元素
      * 参数 string - String
      * 返回值 CborBuilder - 添加后的对象
      */
     public func add(string: String): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 UnicodeString 类型元素
      * 返回值 UnicodeStringBuilder<CborBuilder> - UnicodeStringBuilder<CborBuilder>
      */
     public func startString(): UnicodeStringBuilder<CborBuilder>
 
     /*
-     * 添加元素
+     * 添加 String 类型元素
      * 参数 string - ?String
      * 返回值 UnicodeStringBuilder<CborBuilder> - UnicodeStringBuilder<CborBuilder>
      */
@@ -620,25 +535,25 @@ public class CborBuilder <: AbstractBuilder<CborBuilder> {
     public func addTag(value: Int64): CborBuilder
 
     /*
-     * 添加元素
+     * 添加 Array 类型元素
      * 返回值 ArrayBuilder<CborBuilder> - ArrayBuilder<CborBuilder>
      */
     public func startArray(): ArrayBuilder<CborBuilder>
 
     /*
-     * 添加元素
+     * 添加 Array 类型元素
      * 返回值 ArrayBuilder<CborBuilder> - ArrayBuilder<CborBuilder>
      */
     public func addArray(): ArrayBuilder<CborBuilder>
 
     /*
-     * 添加元素
+     * 添加 Map 类型元素
      * 返回值 MapBuilder<CborBuilder> - MapBuilder<CborBuilder>
      */
     public func addMap(): MapBuilder<CborBuilder>
 
     /*
-     * 添加元素
+     * 添加 Map 类型元素
      * 返回值 MapBuilder<CborBuilder> - MapBuilder<CborBuilder>
      */
     public func startMap(): MapBuilder<CborBuilder>
@@ -706,36 +621,6 @@ public interface DataItemListener {
     func onDataItem(dataItem: DataItem): Unit
 }
 
-public class DoublePrecisionFloatDecoder <: AbstractDecoder<DoublePrecisionFloat> {
-    /*
-     * 初始化
-     * 参数 decoder - CborDecoder解码器
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: ?CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 返回值 DoublePrecisionFloat - 解码后的DoublePrecisionFloat
-     */
-    public override func decode(_: Int32): DoublePrecisionFloat
-}
-
-public class DoublePrecisionFloatEncoder <: AbstractEncoder<DoublePrecisionFloat> {
-    /*
-     * 初始化
-     * 参数 encoder - CborEncoder编码器
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: ?CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 dataItem - 编码数据类
-     */
-    public override func encode(dataItem: DoublePrecisionFloat): Unit
-}
-
 public class DoublePrecisionFloat <: Special {
     /*
      * 初始化
@@ -754,43 +639,6 @@ public class DoublePrecisionFloat <: Special {
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
-}
-
-public class HalfPrecisionFloatDecoder <: AbstractDecoder<HalfPrecisionFloat> {
-    /*
-     * 初始化
-     * 参数 decoder - ?CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: ?CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 返回值 HalfPrecisionFloat - 解码后的 HalfPrecisionFloat
-     */
-    public override func decode(_: Int32): HalfPrecisionFloat 
-}
-
-public open class HalfPrecisionFloatEncoder <: AbstractEncoder<HalfPrecisionFloat>{
-    /*
-     * 初始化
-     * 参数 encoder - ?CborEncoder
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: ?CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 dataItem - 编码数据类
-     */
-    public open func encode(dataItem: HalfPrecisionFloat): Unit
-
-    /*
-     * Float32转Int32
-     * 参数 fval - Float32
-     * 返回值 Int32 - 转换后的值
-     */
-    public static func fromFloat(fval: Float32): Int32
 }
 
 public class HalfPrecisionFloat <: AbstractFloat{
@@ -829,31 +677,6 @@ public class LanguageTaggedString <: CborArray{
     public func getString(): DataItem
 }
 
-public class MajorType <: Enum<MajorType> {
-    public static let INVALID
-    public static let UNSIGNED_INTEGER
-    public static let NEGATIVE_INTEGER
-    public static let BYTE_STRING
-    public static let UNICODE_STRING
-    public static let ARRAY
-    public static let MAP
-    public static let TAG
-    public static let SPECIAL
-
-    /*
-     * 获取当前对象Value值
-     * 返回值 Int32 - Value值
-     */
-    public func getValue(): Int32
-
-    /*
-     * 根据数值获取对应MajorType对象
-     * 返回值 b - Int32值
-     * 返回值 MajorType - MajorType对象
-     */
-    public static func ofByte(b: Int32): MajorType 
-}
-
 public class MapBuilder<T> <: AbstractBuilder<T> {
     /*
      * 初始化
@@ -863,7 +686,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public init(parent: T, map: CborMap)
 
     /*
-     * 添加值
+     * 添加 <DataItem，DataItem> 键值对
      * 参数 key - DataItem
      * 参数 dataItem - DataItem值
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -871,7 +694,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: DataItem, value: DataItem): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <Int64，Int64> 键值对
      * 参数 key - Int64
      * 参数 dataItem - Int64
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -879,7 +702,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: Int64, value: Int64): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <Int64，Bool> 键值对
      * 参数 key - Int64
      * 参数 dataItem - Bool
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -887,7 +710,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: Int64, value: Bool): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <Int64，Float32> 键值对
      * 参数 key - Int64
      * 参数 dataItem - Float32
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -895,7 +718,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: Int64, value: Float32): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <Int64，Float64> 键值对
      * 参数 key - Int64
      * 参数 dataItem - Float64
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -903,7 +726,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: Int64, value: Float64): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <Int64，Array<UInt8>> 键值对
      * 参数 key - Int64
      * 参数 dataItem - Array<UInt8>
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -911,7 +734,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: Int64, value: Array<UInt8>): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <Int64，String> 键值对
      * 参数 key - Int64
      * 参数 value - String
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -919,7 +742,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: Int64, value: String): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <String，Int64> 键值对
      * 参数 key - String
      * 参数 value - Int64
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -927,7 +750,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: String, value: Int64): MapBuilder<T> 
 
     /*
-     * 添加值
+     * 添加 <String，Bool> 键值对
      * 参数 key - String
      * 参数 value - Bool
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -935,7 +758,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: String, value: Bool): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <String，Float32> 键值对
      * 参数 key - String
      * 参数 value - Float32
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -943,7 +766,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: String, value: Float32): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <String，Float64> 键值对
      * 参数 key - String
      * 参数 value - Float64
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -951,7 +774,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: String, value: Float64): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <String，Array<UInt8>> 键值对
      * 参数 key - String
      * 参数 value - Array<UInt8>
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -959,7 +782,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: String, value: Array<UInt8>): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 <String，String> 键值对
      * 参数 key - String
      * 参数 value - String
      * 返回值 MapBuilder<T> - 添加后的对象
@@ -967,84 +790,84 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     public func put(key: String, value: String): MapBuilder<T>
 
     /*
-     * 添加值
+     * 添加 Array 键值
      * 参数 key - DataItem
      * 返回值 ArrayBuilder<MapBuilder<T>> - 添加后的对象
      */
     public func putArray(key: DataItem): ArrayBuilder<MapBuilder<T>>
 
     /*
-     * 添加值
+     * 添加 Array 键值
      * 参数 key - Int64
      * 返回值 ArrayBuilder<MapBuilder<T>> - 添加后的对象
      */
     public func putArray(key: Int64): ArrayBuilder<MapBuilder<T>>
 
     /*
-     * 添加值
+     * 添加 Array 键值
      * 参数 key - String
      * 返回值 ArrayBuilder<MapBuilder<T>> - 添加后的对象
      */
     public func putArray(key: String): ArrayBuilder<MapBuilder<T>>
 
     /*
-     * 添加值
+     * 添加 Array 键值
      * 参数 key - DataItem
      * 返回值 ArrayBuilder<MapBuilder<T>> - 添加后的对象
      */
     public func startArray(key: DataItem): ArrayBuilder<MapBuilder<T>>
 
     /*
-     * 添加值
+     * 添加 Array 键值
      * 参数 key - Int64
      * 返回值 ArrayBuilder<MapBuilder<T>> - 添加后的对象
      */
     public func startArray(key: Int64): ArrayBuilder<MapBuilder<T>>
 
     /*
-     * 添加值
+     * 添加 Array 键值
      * 参数 key - String
      * 返回值 ArrayBuilder<MapBuilder<T>> - 添加后的对象
      */
     public func startArray(key: String): ArrayBuilder<MapBuilder<T>>
 
     /*
-     * 添加值
+     * 添加 Map 键值
      * 参数 key - DataItem
      * 返回值 MapBuilder<Object> - 添加后的对象
      */
     public func putMap(key: DataItem): MapBuilder<Object>
 
     /*
-     * 添加值
+     * 添加 Map 键值
      * 参数 key - Int64
      * 返回值 MapBuilder<Object> - 添加后的对象
      */
     public func putMap(key: Int64): MapBuilder<Object> 
 
     /*
-     * 添加值
+     * 添加 Map 键值
      * 参数 key - String
      * 返回值 MapBuilder<Object> - 添加后的对象
      */
     public func putMap(key: String): MapBuilder<Object> 
 
     /*
-     * 添加值
+     * 添加 Map 键值
      * 参数 key - DataItem
      * 返回值 MapBuilder<Object> - 添加后的对象
      */
     public func startMap(key: DataItem): MapBuilder<Object>
 
     /*
-     * 添加值
+     * 添加 Map 键值
      * 参数 key - Int64
      * 返回值 MapBuilder<Object> - 添加后的对象
      */
     public func startMap(key: Int64): MapBuilder<Object> 
 
     /*
-     * 添加值
+     * 添加 Map 键值
      * 参数 key - String
      * 返回值 MapBuilder<Object> - 添加后的对象
      */
@@ -1055,36 +878,6 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
      * 返回值 ?T - 添加后的对象
      */
     public func end(): ?T
-}
-public class MapDecoder <: AbstractDecoder<CborMap> {
-    /*
-     * 初始化
-     * 参数 decoder - CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 参数 initialByte - 初始字节
-     * 返回值 ByteString - 解码后的ByteString
-     */
-    public override func decode(initialByte: Int32): CborMap
-}
-
-public class MapEncoder <: AbstractEncoder<CborMap> {
-    /*
-     * 初始化
-     * 参数 encoder - CborDecoder编码器
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 map - CborMap
-     */
-    public override func encode(map: CborMap): Unit
 }
 
 public class CborMap <: ChunkableDataItem {
@@ -1144,37 +937,6 @@ public class CborMap <: ChunkableDataItem {
      * 返回值 Int64 - 哈希值
      */
     public override func hashCode(): Int64
-}
-
-public class NegativeIntegerDecoder <: AbstractDecoder<NegativeInteger> {
-    /*
-     * 初始化
-     * 参数 decoder - CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 参数 initialByte - 初始字节
-     * 返回值 NegativeInteger - 解码后的NegativeInteger
-     */
-    public override func decode(initialByte: Int32): NegativeInteger
-}
-
-public class NegativeIntegerEncoder <: AbstractEncoder<NegativeInteger> {
-    /*
-     * 初始化
-     * 参数 encoder - CborDecoder编码器
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 dataItem - 编码数据类
-     */
-    public override func encode(dataItem: NegativeInteger): Unit
 }
 
 public class NegativeInteger <: Number {
@@ -1285,137 +1047,12 @@ public class SimpleValue <: Special {
     public override func equals(object: Object): Bool
 }
 
-public class SinglePrecisionFloatDecoder <: AbstractDecoder<SinglePrecisionFloat> {
-    /*
-     * 初始化
-     * 参数 decoder - ?CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: ?CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 返回值 HalfPrecisionFloat - 解码后的 HalfPrecisionFloat
-     */
-    public override func decode(_: Int32): SinglePrecisionFloat
-}
-
-public class SinglePrecisionFloatEncoder <: AbstractEncoder<SinglePrecisionFloat> {
-    /*
-     * 初始化
-     * 参数 encoder - ?CborEncoder
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: ?CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 dataItem - 编码数据类
-     */
-    public func encode(dataItem: SinglePrecisionFloat): Unit
-}
-
 public class SinglePrecisionFloat <: AbstractFloat {
     /*
      * 初始化
      * 参数 value - Int32值
      */
     public init(value: Float32)
-}
-
-public class SpecialDecoder <: AbstractDecoder<Special> {
-    /*
-     * 初始化
-     * 参数 decoder - ?CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: ?CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 参数 initialByte - 初始字节
-     * 返回值 NegativeInteger - 解码后的NegativeInteger
-     */
-    public override func decode(initialByte: Int32): Special
-}
-
-public class SpecialEncoder <: AbstractEncoder<Special> {
-    /*
-     * 初始化
-     * 参数 encoder - ?CborEncoder
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: ?CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 dataItem - 编码数据类
-     */
-    public override func encode(dataItem: Special): Unit
-}
-
-public class SpecialType <: Enum<SpecialType> {
-    public static let SIMPLE_VALUE
-    public static let SIMPLE_VALUE_NEXT_BYTE
-    public static let IEEE_754_HALF_PRECISION_FLOAT
-    public static let IEEE_754_SINGLE_PRECISION_FLOAT
-    public static let IEEE_754_DOUBLE_PRECISION_FLOAT
-    public static let UNALLOCATED
-    public static let BREAK
-
-    /*
-     * 根据数值获取对应SpecialType对象
-     * 返回值 b - Int32值
-     * 返回值 SpecialType - SpecialType对象
-     */
-    public static func ofByte(b: Int32): SpecialType
-}
-
-public open class Special <: DataItem {
-    public static let BREAK
-
-    /*
-     * 获取SpecialType
-     * 返回值 SpecialType - SpecialType
-     */
-    public func getSpecialType(): SpecialType
-
-    /*
-     * 对象判等
-     * 返回值 Bool - 是否相等
-     */
-    public override open func equals(object: Object): Bool
-}
-
-public class TagDecoder <: AbstractDecoder<Tag> {
-    /*
-     * 初始化
-     * 参数 decoder - CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 参数 initialByte - 初始字节
-     * 返回值 NegativeInteger - 解码后的NegativeInteger
-     */
-    public override func decode(initialByte: Int32): Tag
-}
-
-public class TagEncoder <: AbstractEncoder<Tag> {
-    /*
-     * 初始化
-     * 参数 encoder - CborDecoder编码器
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: CborEncoder, outputStream: OutputStream)
-    
-    /*
-     * 编码
-     * 参数 tag - Tag数据类
-     */
-    public override func encode(tag: Tag): Unit
 }
 
 public class Tag <: DataItem {
@@ -1446,7 +1083,7 @@ public class UnicodeStringBuilder<T> <: AbstractBuilder<T> where T <: AbstractBu
     public init(parent: T)
 
     /*
-     * 添加元素
+     * 添加 String 类型元素
      * 参数 string - String
      * 返回值 UnicodeStringBuilder<T> - 添加后的对象
      */
@@ -1457,37 +1094,6 @@ public class UnicodeStringBuilder<T> <: AbstractBuilder<T> where T <: AbstractBu
      * 返回值 ?T - 添加后的对象
      */
     public func end(): ?T
-}
-
-public class UnicodeStringDecoder <: AbstractDecoder<UnicodeString> {
-    /*
-     * 初始化
-     * 参数 decoder - CborDecoder
-     * 参数 inputStream - 输入流
-     */
-    public init(decoder: CborDecoder, inputStream: InputStream)
-
-    /*
-     * 解码
-     * 参数 initialByte - 初始字节
-     * 返回值 UnicodeString - 解码后的UnicodeString
-     */
-    public override func decode(initialByte: Int32): UnicodeString
-}
-
-public class UnicodeStringEncoder <: AbstractEncoder<UnicodeString> {
-    /*
-     * 初始化
-     * 参数 encoder - CborEncoder
-     * 参数 outputStream - 输出流
-     */
-    public init(encoder: CborEncoder, outputStream: OutputStream)
-
-    /*
-     * 编码
-     * 参数 dataItem - 编码数据类
-     */
-    public override func encode(dataItem: UnicodeString): Unit
 }
 
 public class UnicodeString <: ChunkableDataItem {
@@ -1522,6 +1128,419 @@ public class UnicodeString <: ChunkableDataItem {
     public func hashCode(): Int64
 }
 
+public class UnsignedInteger <: Number {
+    /*
+     * 初始化
+     * 参数 value - Int64值
+     */
+    public init(value: Int64)
+
+    /*
+     * 初始化
+     * 参数 value - BigInt值
+     */
+    public init(value: BigInt)
+}
+```
+
+##### 1.2 其他接口
+
+```cangjie
+public class AdditionalInformation <: Enum<AdditionalInformation>{
+    public static let DIRECT
+    public static let ONE_BYTE
+    public static let TWO_BYTES
+    public static let FOUR_BYTES
+    public static let EIGHT_BYTES
+    public static let RESERVED
+    public static let INDEFINITE
+
+    /*
+     * 获取当前对象Value值
+     * 返回值 Int32 - Value值
+     */
+    public func getValue(): Int32
+
+    /*
+     * 根据数值获取对应AdditionalInformation对象
+     * 返回值 b - Int32值
+     * 返回值 AdditionalInformation - AdditionalInformation对象
+     */
+    public static func ofByte(b: Int32): AdditionalInformation
+}
+
+public class ArrayDecoder <: AbstractDecoder<CborArray> {
+    /*
+     * 初始化
+     * 参数 decoder - CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: CborDecoder, inputStream: InputStream)
+
+    /*
+     * 数组类型解码
+     * 参数 initialByte - 初始字节
+     * 返回值 CborArray - 解码后的CborArray
+     */
+    public override func decode(initialByte: Int32): CborArray
+}
+
+public class ArrayEncoder <: AbstractEncoder<CborArray> {
+    /*
+     * 初始化
+     * 参数 encoder - CborEncoder
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 数组类型编码
+     * 参数 array - 编码数据
+     */
+    public override func encode(array: CborArray): Unit 
+}
+
+public class ByteStringDecoder <: AbstractDecoder<ByteString> {
+    /*
+     * 初始化
+     * 参数 decoder - CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: CborDecoder, inputStream: InputStream)
+
+    /*
+     * 字节编码字符串型解码
+     * 参数 initialByte - 初始字节
+     * 返回值 ByteString - 解码后的ByteString
+     */
+    public override func decode(initialByte: Int32): ByteString
+}
+
+public class ByteStringEncoder <: AbstractEncoder<ByteString> {
+    /*
+     * 初始化
+     * 参数 encoder - CborEncoder
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 字节编码字符串型编码
+     * 参数 byteString - 编码数据类
+     */
+    public override func encode(byteString: ByteString): Unit
+}
+
+public class DoublePrecisionFloatDecoder <: AbstractDecoder<DoublePrecisionFloat> {
+    /*
+     * 初始化
+     * 参数 decoder - CborDecoder解码器
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: ?CborDecoder, inputStream: InputStream)
+
+    /*
+     * 双精度浮点型解码，该接口入参是实现接口的约束，在该类型解码中无实际作用
+     * 返回值 DoublePrecisionFloat - 解码后的DoublePrecisionFloat
+     */
+    public override func decode(_: Int32): DoublePrecisionFloat
+}
+
+public class DoublePrecisionFloatEncoder <: AbstractEncoder<DoublePrecisionFloat> {
+    /*
+     * 初始化
+     * 参数 encoder - CborEncoder编码器
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: ?CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 双精度浮点型编码
+     * 参数 dataItem - 编码数据类
+     */
+    public override func encode(dataItem: DoublePrecisionFloat): Unit
+}
+
+public class HalfPrecisionFloatDecoder <: AbstractDecoder<HalfPrecisionFloat> {
+    /*
+     * 初始化
+     * 参数 decoder - ?CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: ?CborDecoder, inputStream: InputStream)
+
+    /*
+     * 半精度浮点型解码，该接口入参是实现接口的约束，在该类型解码中无实际作用
+     * 返回值 HalfPrecisionFloat - 解码后的 HalfPrecisionFloat
+     */
+    public override func decode(_: Int32): HalfPrecisionFloat 
+}
+
+public open class HalfPrecisionFloatEncoder <: AbstractEncoder<HalfPrecisionFloat>{
+    /*
+     * 初始化
+     * 参数 encoder - ?CborEncoder
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: ?CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 半精度浮点型编码
+     * 参数 dataItem - 编码数据类
+     */
+    public open func encode(dataItem: HalfPrecisionFloat): Unit
+
+    /*
+     * Float32转Int32
+     * 参数 fval - Float32
+     * 返回值 Int32 - 转换后的值
+     */
+    public static func fromFloat(fval: Float32): Int32
+}
+
+public class MajorType <: Enum<MajorType> {
+    public static let INVALID
+    public static let UNSIGNED_INTEGER
+    public static let NEGATIVE_INTEGER
+    public static let BYTE_STRING
+    public static let UNICODE_STRING
+    public static let ARRAY
+    public static let MAP
+    public static let TAG
+    public static let SPECIAL
+
+    /*
+     * 获取当前对象Value值
+     * 返回值 Int32 - Value值
+     */
+    public func getValue(): Int32
+
+    /*
+     * 根据数值获取对应MajorType对象
+     * 返回值 b - Int32值
+     * 返回值 MajorType - MajorType对象
+     */
+    public static func ofByte(b: Int32): MajorType 
+}
+
+public class MapDecoder <: AbstractDecoder<CborMap> {
+    /*
+     * 初始化
+     * 参数 decoder - CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: CborDecoder, inputStream: InputStream)
+
+    /*
+     * Map 类型解码
+     * 参数 initialByte - 初始字节
+     * 返回值 ByteString - 解码后的ByteString
+     */
+    public override func decode(initialByte: Int32): CborMap
+}
+
+public class MapEncoder <: AbstractEncoder<CborMap> {
+    /*
+     * 初始化
+     * 参数 encoder - CborDecoder编码器
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: CborEncoder, outputStream: OutputStream)
+
+    /*
+     * Map 类型编码
+     * 参数 map - CborMap
+     */
+    public override func encode(map: CborMap): Unit
+}
+
+public class NegativeIntegerDecoder <: AbstractDecoder<NegativeInteger> {
+    /*
+     * 初始化
+     * 参数 decoder - CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: CborDecoder, inputStream: InputStream)
+
+    /*
+     * 正数类型解码
+     * 参数 initialByte - 初始字节
+     * 返回值 NegativeInteger - 解码后的NegativeInteger
+     */
+    public override func decode(initialByte: Int32): NegativeInteger
+}
+
+public class NegativeIntegerEncoder <: AbstractEncoder<NegativeInteger> {
+    /*
+     * 初始化
+     * 参数 encoder - CborDecoder编码器
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 正数类型编码
+     * 参数 dataItem - 编码数据类
+     */
+    public override func encode(dataItem: NegativeInteger): Unit
+}
+
+public class SinglePrecisionFloatDecoder <: AbstractDecoder<SinglePrecisionFloat> {
+    /*
+     * 初始化
+     * 参数 decoder - ?CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: ?CborDecoder, inputStream: InputStream)
+
+    /*
+     * 单精度浮点型解码，该接口入参是实现接口的约束，在该类型解码中无实际作用
+     * 返回值 HalfPrecisionFloat - 解码后的 HalfPrecisionFloat
+     */
+    public override func decode(_: Int32): SinglePrecisionFloat
+}
+
+public class SinglePrecisionFloatEncoder <: AbstractEncoder<SinglePrecisionFloat> {
+    /*
+     * 初始化
+     * 参数 encoder - ?CborEncoder
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: ?CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 单精度浮点型编码
+     * 参数 dataItem - 编码数据类
+     */
+    public func encode(dataItem: SinglePrecisionFloat): Unit
+}
+
+public class SpecialDecoder <: AbstractDecoder<Special> {
+    /*
+     * 初始化
+     * 参数 decoder - ?CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: ?CborDecoder, inputStream: InputStream)
+
+    /*
+     * 特殊类型解码
+     * 参数 initialByte - 初始字节
+     * 返回值 NegativeInteger - 解码后的NegativeInteger
+     */
+    public override func decode(initialByte: Int32): Special
+}
+
+public class SpecialEncoder <: AbstractEncoder<Special> {
+    /*
+     * 初始化
+     * 参数 encoder - ?CborEncoder
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: ?CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 特殊类型解码
+     * 参数 dataItem - 编码数据类
+     */
+    public override func encode(dataItem: Special): Unit
+}
+
+public open class Special <: DataItem {
+    public static let BREAK
+
+    /*
+     * 获取SpecialType
+     * 返回值 SpecialType - SpecialType
+     */
+    public func getSpecialType(): SpecialType
+
+    /*
+     * 对象判等
+     * 返回值 Bool - 是否相等
+     */
+    public override open func equals(object: Object): Bool
+}
+
+public class SpecialType <: Enum<SpecialType> {
+    public static let SIMPLE_VALUE
+    public static let SIMPLE_VALUE_NEXT_BYTE
+    public static let IEEE_754_HALF_PRECISION_FLOAT
+    public static let IEEE_754_SINGLE_PRECISION_FLOAT
+    public static let IEEE_754_DOUBLE_PRECISION_FLOAT
+    public static let UNALLOCATED
+    public static let BREAK
+
+    /*
+     * 根据数值获取对应SpecialType对象
+     * 返回值 b - Int32值
+     * 返回值 SpecialType - SpecialType对象
+     */
+    public static func ofByte(b: Int32): SpecialType
+}
+
+public class TagDecoder <: AbstractDecoder<Tag> {
+    /*
+     * 初始化
+     * 参数 decoder - CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: CborDecoder, inputStream: InputStream)
+
+    /*
+     * Tag 类型解码
+     * 参数 initialByte - 初始字节
+     * 返回值 NegativeInteger - 解码后的NegativeInteger
+     */
+    public override func decode(initialByte: Int32): Tag
+}
+
+public class TagEncoder <: AbstractEncoder<Tag> {
+    /*
+     * 初始化
+     * 参数 encoder - CborDecoder编码器
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: CborEncoder, outputStream: OutputStream)
+    
+    /*
+     * Tag 类型编码
+     * 参数 tag - Tag数据类
+     */
+    public override func encode(tag: Tag): Unit
+}
+
+public class UnicodeStringDecoder <: AbstractDecoder<UnicodeString> {
+    /*
+     * 初始化
+     * 参数 decoder - CborDecoder
+     * 参数 inputStream - 输入流
+     */
+    public init(decoder: CborDecoder, inputStream: InputStream)
+
+    /*
+     * 字符串类型解码
+     * 参数 initialByte - 初始字节
+     * 返回值 UnicodeString - 解码后的UnicodeString
+     */
+    public override func decode(initialByte: Int32): UnicodeString
+}
+
+public class UnicodeStringEncoder <: AbstractEncoder<UnicodeString> {
+    /*
+     * 初始化
+     * 参数 encoder - CborEncoder
+     * 参数 outputStream - 输出流
+     */
+    public init(encoder: CborEncoder, outputStream: OutputStream)
+
+    /*
+     * 字符串类型编码
+     * 参数 dataItem - 编码数据类
+     */
+    public override func encode(dataItem: UnicodeString): Unit
+}
+
 public class UnsignedIntegerDecoder <: AbstractDecoder<UnsignedInteger> {
     /*
      * 初始化
@@ -1531,7 +1550,7 @@ public class UnsignedIntegerDecoder <: AbstractDecoder<UnsignedInteger> {
     public init(decoder: CborDecoder, inputStream: InputStream)
 
     /*
-     * 解码
+     * 无符号整数类型解码
      * 参数 initialByte - 初始字节
      * 返回值 UnsignedInteger - 解码后的UnsignedInteger
      */
@@ -1547,23 +1566,64 @@ public class UnsignedIntegerEncoder <: AbstractEncoder<UnsignedInteger> {
     public init(encoder: CborEncoder, outputStream: OutputStream)
 
     /*
-     * 编码
+     * 无符号整数类型编码
      * 参数 dataItem - 编码数据类
      */
     public override func encode(dataItem: UnsignedInteger): Unit
 }
+```
 
-public class UnsignedInteger <: Number {
-    /*
-     * 初始化
-     * 参数 value - Int64值
-     */
-    public init(value: Int64)
+##### 1.3 示例代码
 
-    /*
-     * 初始化
-     * 参数 value - BigInt值
-     */
-    public init(value: BigInt)
+Map示例：
+```cangjie
+import std.unittest.*
+import std.unittest.testmacro.*
+import cbor4cj.*
+
+@Test
+public class MapBuilderTest {
+    @TestCase
+    public func testMapBuilder(): Unit {
+        let builder = CborBuilder()
+        let dataItems = builder.addMap().put(UnicodeString("key"), UnicodeString("value")).put(1, true).put(2,
+            "value".toArray()).put(3, 1.0).put(4, 1.0).put(5, 1).put(6, "value").put("7", true).put("8",
+            "value".toArray()).put("9", 1.0).put("10", 1.0).put("11", 1).put("12", "value").putMap(13).end().getOrThrow(
+        )
+        let dataItems2 = (((dataItems as MapBuilder<CborBuilder>).getOrThrow().putMap("14").end().getOrThrow()) as MapBuilder<CborBuilder>).
+            getOrThrow().putMap(UnsignedInteger(15)).end().getOrThrow()
+        let dataItems3 = (((dataItems2 as MapBuilder<CborBuilder>).getOrThrow().putArray(16).end().getOrThrow()) as MapBuilder<CborBuilder>).
+            getOrThrow().putArray("17").end().getOrThrow()
+        let dataItems4 = (((dataItems3 as MapBuilder<CborBuilder>).getOrThrow().putArray(UnsignedInteger(18)).end().
+            getOrThrow()) as MapBuilder<CborBuilder>).getOrThrow().end().getOrThrow()
+        let dataItems5 = (dataItems4 as CborBuilder).getOrThrow().startMap().startArray(1).end().getOrThrow().startArray(
+            UnsignedInteger(2)).end().getOrThrow().end().getOrThrow().build()
+        @Assert(2, dataItems5.size)
+        @Assert((dataItems5.first.getOrThrow()) is CborMap)
+        let map = (dataItems5.first.getOrThrow() as CborMap).getOrThrow()
+        @Assert(19, map.getKeys().size)
+    }
+}
+```
+
+Array示例：
+```cangjie
+import std.unittest.*
+import std.unittest.testmacro.*
+import cbor4cj.*
+
+@Test
+public class ArrayBuilderTest {
+    @TestCase
+    public func shouldAddBool(): Unit {
+        let builder = CborBuilder()
+        let dataItems = builder.addArray().add(true).add(false).end().getOrThrow().build()
+        @Assert(1, dataItems.size)
+        @Assert(dataItems.first.getOrThrow() is CborArray)
+        let array = (dataItems.first.getOrThrow() as CborArray).getOrThrow()
+        @Assert(2, array.getDataItems().size)
+        @Assert((array.getDataItems()[0]) is SimpleValue)
+        @Assert((array.getDataItems()[1]) is SimpleValue)
+    }
 }
 ```

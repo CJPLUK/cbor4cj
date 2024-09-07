@@ -39,8 +39,8 @@ public class ByteStringDecoder <: AbstractDecoder<ByteString> {
             } else if (refEq(majorType, MajorType.BYTE_STRING)) {
                 let byteString = dataItem.getOrThrow() as ByteString
                 let byteArray = byteString.getOrThrow().getBytes()
-                if (byteArray.isEmpty() == false) {
-                    bytes.write(byteArray)
+                if (let Some(v) <- byteArray) {
+                    bytes.write(v)
                 }
             } else {
                 throw CborException("Unexpected major type " + majorType.toString())

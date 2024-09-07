@@ -10,6 +10,7 @@ public class SinglePrecisionFloatDecoder <: AbstractDecoder<SinglePrecisionFloat
         super(decoder, inputStream)
     }
 
+    @OverflowWrapping
     public override func decode(_: Int32): SinglePrecisionFloat {
         var bits: Int32 = 0
         bits |= nextSymbol() & 0xFF
@@ -22,4 +23,3 @@ public class SinglePrecisionFloatDecoder <: AbstractDecoder<SinglePrecisionFloat
         return SinglePrecisionFloat(Float32.fromBits(UInt32(bits)))
     }
 }
-

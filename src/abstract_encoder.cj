@@ -108,6 +108,7 @@ public abstract class AbstractEncoder<T> {
         }
     }
 
+    @OverflowWrapping
     protected func write(b: Int32): Unit {
         try {
             outputStream.write([UInt8(b)])

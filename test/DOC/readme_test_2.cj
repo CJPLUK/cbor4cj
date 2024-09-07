@@ -25,7 +25,7 @@ public class ReadMeTest2 {
         @Assert((value2 as UnsignedInteger).getOrThrow().getValue(), BigInt(1234))
 
         var value3 = iter.next().getOrThrow()
-        @Assert((value3 as ByteString).getOrThrow().getBytes(), Array<Byte>([0x10]))
+        @Assert((value3 as ByteString).getOrThrow().getBytes(), [0x10u8])
 
         var value4 = iter.next().getOrThrow()
         @Assert(value4.getMajorType(),MajorType.ARRAY)

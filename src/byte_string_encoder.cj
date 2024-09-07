@@ -15,14 +15,14 @@ public class ByteStringEncoder <: AbstractEncoder<ByteString> {
         let bytes = byteString.getBytes() // )
         if (byteString.isChunked()) {
             encodeTypeChunked(MajorType.BYTE_STRING)
-            if (bytes.isEmpty() == false) {
+            if (bytes.isSome()) {
                 encode(ByteString(bytes))
             }
-        } else if (bytes.isEmpty()) {
+        } else if (bytes.isNone()) {
             encoder.getOrThrow().encode(SimpleValue.NULL)
         } else {
-            encodeTypeAndLength(MajorType.BYTE_STRING, bytes.size)
-            write(bytes)
+            encodeTypeAndLength(MajorType.BYTE_STRING, bytes.getOrThrow().size)
+            write(bytes.getOrThrow())
         }
     }
 }
