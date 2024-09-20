@@ -36,10 +36,10 @@ public class MapEncoder <: AbstractEncoder<CborMap> {
         for (key in keys) {
             e.encode(key)
             let keyBytes: Array<UInt8> = byteArrayOutputStream.bytes()
-            byteArrayOutputStream = ByteArrayStream()
+            byteArrayOutputStream.readToEnd()
             e.encode(map.get(key))
             let valueBytes: Array<UInt8> = byteArrayOutputStream.bytes()
-            byteArrayOutputStream = ByteArrayStream()
+            byteArrayOutputStream.readToEnd()
             sortedMap.put(CborMapKeyBytes(keyBytes), valueBytes)
         }
         for (entry in sortedMap) {

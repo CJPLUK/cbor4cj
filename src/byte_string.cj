@@ -5,20 +5,20 @@ package cbor4cj
 
 
 public class ByteString <: ChunkableDataItem {
-    private let bytes: Array<UInt8>
+    private let bytes: ?Array<UInt8>
 
     public init(bytes: ?Array<UInt8>) {
         super(MajorType.BYTE_STRING)
         if (bytes.isNone()) {
-            this.bytes = Array<UInt8>()
+            this.bytes = None
         } else {
             this.bytes = bytes.getOrThrow()
         }
     }
 
-    public func getBytes(): Array<UInt8> {
-        if (bytes.isEmpty()) {
-            return Array<UInt8>()
+    public func getBytes(): ?Array<UInt8> {
+        if (bytes.isNone()) {
+            return None
         } else {
             return bytes
         }

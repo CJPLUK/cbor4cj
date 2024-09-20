@@ -80,7 +80,7 @@ public abstract class AbstractBuilder<T> {
             let inputStream = ByteArrayStream()
             inputStream.write(bytes)
             let decoder = getHalfPrecisionFloatDecoder(inputStream)
-            let arr = Array<Byte>(1, item: 0)
+            let arr = Array<Byte>(1, repeat: 0)
             if (inputStream.read(arr) == -1) {
                 throw CborException("unexpected end of stream")
             }

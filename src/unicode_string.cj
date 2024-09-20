@@ -38,9 +38,9 @@ public class UnicodeString <: ChunkableDataItem {
 
     public func hashCode(): Int64 {
         var hash = 0
-        if (string.isNone() == false) {
+        if (let Some(v) <- string) {
             hash = Int64(super.hashCode())
-            hash += Int64(string.hashCode())
+            hash += Int64(v.hashCode())
         }
         return Int64(hash)
     }

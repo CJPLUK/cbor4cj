@@ -5,14 +5,14 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.54.3-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-80.0%25-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.55.3-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-91.2%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
 ## 介绍
 
-基于RFC 7049协议的简明二进制对象表示法(Cbor)的Cangjie语言实现，。
+基于RFC 7049协议的简明二进制对象表示法(Cbor)的Cangjie语言实现
 
 ### 特性
 
@@ -36,7 +36,7 @@
 
 - `doc`  文档目录，用于存API接口文档
 - `src`  是库源码目录
-- `test` 存放 HLT 测试用例、LLT 自测用例、FUZZ 测试用例和文档示例用例
+- `test` 存放 HLT 测试用例、LLT 自测用例、和文档示例用例
 
 ### 接口说明
 
@@ -181,7 +181,7 @@ class impleDataItemListener <: DataItemListener {
 
 在下述版本验证通过：
 
-    Cangjie Version: 0.54.3
+    Cangjie Version: 0.55.3
 
 ## 开源协议
 

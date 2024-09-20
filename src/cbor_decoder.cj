@@ -122,7 +122,7 @@ public class CborDecoder {
         let symbol: Int32
         var readbyte: Int64 = 0
         try {
-            var arr = Array<UInt8>(1, item: 0)
+            var arr = Array<UInt8>(1, repeat: 0)
             readbyte = inputStream.read(arr)
             symbol = Int32(arr[0])
         } catch (ioException: IOException) {

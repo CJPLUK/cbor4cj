@@ -1,9 +1,9 @@
 [dependencies]
 
 [package]
-  cjc-version = "0.54.3"
+  cjc-version = "0.55.3"
   compile-option = "-O2"
-  description = "nothing here"
+  description = "Concise Binary Object Representation (CBOR)"
   link-option = ""
   name = "cbor4cj"
   output-type = "dynamic"
