@@ -189,19 +189,22 @@ public open class DataItem <: Hashable & Equatable<DataItem> {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public open func equals(object: Object): Bool
 
     /*
      * 对象判等
+     * 参数 rhs - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public operator func ==(rhs: DataItem): Bool
 
     /*
      * 对象判不等
-     * 返回值 Bool - 是否相等
+     * 参数 rhs - 被对比的对象
+     * 返回值 Bool - 是否不等
      */
     public operator func !=(rhs: DataItem): Bool
 
@@ -267,6 +270,7 @@ public open class AbstractFloat <: Special {
     
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -289,7 +293,7 @@ public class ArrayBuilder<T> <: AbstractBuilder<T> {
 
     /*
      * 添加 Int64 值
-     * 参数 value - Int32值
+     * 参数 value - Int64值
      * 返回值 ArrayBuilder<T> - 添加后的对象
      */
     public func add(value: Int64): ArrayBuilder<T> 
@@ -381,6 +385,7 @@ public open class CborArray <: ChunkableDataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -422,6 +427,7 @@ public class ByteString <: ChunkableDataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -608,6 +614,7 @@ public open class ChunkableDataItem <: DataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public open func equals(object: Object): Bool
@@ -636,6 +643,7 @@ public class DoublePrecisionFloat <: Special {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -688,7 +696,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     /*
      * 添加 <DataItem，DataItem> 键值对
      * 参数 key - DataItem
-     * 参数 dataItem - DataItem值
+     * 参数 value - DataItem值
      * 返回值 MapBuilder<T> - 添加后的对象
      */
     public func put(key: DataItem, value: DataItem): MapBuilder<T>
@@ -696,7 +704,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     /*
      * 添加 <Int64，Int64> 键值对
      * 参数 key - Int64
-     * 参数 dataItem - Int64
+     * 参数 value - Int64
      * 返回值 MapBuilder<T> - 添加后的对象
      */
     public func put(key: Int64, value: Int64): MapBuilder<T>
@@ -704,7 +712,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     /*
      * 添加 <Int64，Bool> 键值对
      * 参数 key - Int64
-     * 参数 dataItem - Bool
+     * 参数 value - Bool
      * 返回值 MapBuilder<T> - 添加后的对象
      */
     public func put(key: Int64, value: Bool): MapBuilder<T>
@@ -712,7 +720,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     /*
      * 添加 <Int64，Float32> 键值对
      * 参数 key - Int64
-     * 参数 dataItem - Float32
+     * 参数 value - Float32
      * 返回值 MapBuilder<T> - 添加后的对象
      */
     public func put(key: Int64, value: Float32): MapBuilder<T>
@@ -720,7 +728,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     /*
      * 添加 <Int64，Float64> 键值对
      * 参数 key - Int64
-     * 参数 dataItem - Float64
+     * 参数 value - Float64
      * 返回值 MapBuilder<T> - 添加后的对象
      */
     public func put(key: Int64, value: Float64): MapBuilder<T>
@@ -728,7 +736,7 @@ public class MapBuilder<T> <: AbstractBuilder<T> {
     /*
      * 添加 <Int64，Array<UInt8>> 键值对
      * 参数 key - Int64
-     * 参数 dataItem - Array<UInt8>
+     * 参数 value - Array<UInt8>
      * 返回值 MapBuilder<T> - 添加后的对象
      */
     public func put(key: Int64, value: Array<UInt8>): MapBuilder<T>
@@ -928,6 +936,7 @@ public class CborMap <: ChunkableDataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -962,6 +971,7 @@ public abstract class Number <: DataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -1042,6 +1052,7 @@ public class SimpleValue <: Special {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -1070,6 +1081,7 @@ public class Tag <: DataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override func equals(object: Object): Bool
@@ -1117,6 +1129,7 @@ public class UnicodeString <: ChunkableDataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public func equals(object: Object): Bool
@@ -1457,6 +1470,7 @@ public open class Special <: DataItem {
 
     /*
      * 对象判等
+     * 参数 object - 被对比的对象
      * 返回值 Bool - 是否相等
      */
     public override open func equals(object: Object): Bool
