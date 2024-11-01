@@ -1,10 +1,10 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights reserved.
  */
 package cbor4cj
 
 import std.io.InputStream
-import std.io.ByteArrayStream
+import std.io.ByteBuffer
 
 public class UnicodeStringDecoder <: AbstractDecoder<UnicodeString> {
     public init(decoder: CborDecoder, inputStream: InputStream) {
@@ -27,7 +27,7 @@ public class UnicodeStringDecoder <: AbstractDecoder<UnicodeString> {
     }
 
     private func decodeInfinitiveLength(): UnicodeString {
-        let bytes = ByteArrayStream()
+        let bytes = ByteBuffer()
         while (true) {
             let dataItem = decoder.getOrThrow().decodeNext()
             if (dataItem.isNone()) {
@@ -48,7 +48,7 @@ public class UnicodeStringDecoder <: AbstractDecoder<UnicodeString> {
     }
 
     private func decodeFixedLength(length: Int64): UnicodeString {
-        let bytes = ByteArrayStream(Int64(Int32(length)))
+        let bytes = ByteBuffer(length)
         var i = 0
         while (i < length) {
             bytes.write(UInt8(nextSymbol()))

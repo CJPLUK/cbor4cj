@@ -1,9 +1,10 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights reserved.
  */
 package cbor4cj
 
-import std.io.ByteArrayStream
+import std.io.ByteBuffer
+import std.io.readToEnd
 import std.io.OutputStream
 import std.collection.TreeMap
 
@@ -31,15 +32,15 @@ public class MapEncoder <: AbstractEncoder<CborMap> {
             return
         }
         let sortedMap = TreeMap<CborMapKeyBytes, Array<Byte>>()
-        var byteArrayOutputStream = ByteArrayStream()
+        var byteArrayOutputStream = ByteBuffer()
         let e = CborEncoder(byteArrayOutputStream)
         for (key in keys) {
             e.encode(key)
             let keyBytes: Array<UInt8> = byteArrayOutputStream.bytes()
-            byteArrayOutputStream.readToEnd()
+            readToEnd(byteArrayOutputStream)
             e.encode(map.get(key))
             let valueBytes: Array<UInt8> = byteArrayOutputStream.bytes()
-            byteArrayOutputStream.readToEnd()
+            readToEnd(byteArrayOutputStream)
             sortedMap.put(CborMapKeyBytes(keyBytes), valueBytes)
         }
         for (entry in sortedMap) {

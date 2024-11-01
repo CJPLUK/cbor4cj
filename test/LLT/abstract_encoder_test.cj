@@ -35,7 +35,7 @@ public class AbstractEncoderTest {
 
     @TestCase
     public func shallEncode32bit(): Unit {
-        let outputStream = ByteArrayStream()
+        let outputStream = ByteBuffer()
         let encoder = AbstractEncoderTest_TestEncoder(this, outputStream)
         encoder.doEncodeTypeAndLength(4294967296)
         let bytes: Array<UInt8> = outputStream.bytes()

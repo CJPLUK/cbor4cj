@@ -1,9 +1,9 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights reserved.
  */
 package cbor4cj
 
-import std.io.ByteArrayStream
+import std.io.ByteBuffer
 import std.io.InputStream
 import std.io.OutputStream
 import std.math.numeric.BigInt
@@ -73,11 +73,11 @@ public abstract class AbstractBuilder<T> {
 
     private func isHalfPrecisionEnough(value: Float32): Bool {
         try {
-            let outputStream = ByteArrayStream()
+            let outputStream = ByteBuffer()
             let encoder = getHalfPrecisionFloatEncoder(outputStream)
             encoder.encode(HalfPrecisionFloat(value))
             let bytes: Array<UInt8> = outputStream.bytes()
-            let inputStream = ByteArrayStream()
+            let inputStream = ByteBuffer()
             inputStream.write(bytes)
             let decoder = getHalfPrecisionFloatDecoder(inputStream)
             let arr = Array<Byte>(1, repeat: 0)

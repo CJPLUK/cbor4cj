@@ -11,8 +11,8 @@ import std.collection.*
 public class fix1 {
     @TestCase
     public func fix1() {
-        var byteOutputStream = ByteArrayStream();
-        var inputStream = ByteArrayStream();
+        var byteOutputStream = ByteBuffer();
+        var inputStream = ByteBuffer();
         let builder = CborBuilder()
         let dataItems = builder.addArray().add(SimpleValue(-48)).end().getOrThrow().build()
         var encoder = CborEncoder(byteOutputStream);

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights reserved.
  */
 package cbor4cj
 
-import std.io.ByteArrayStream
+import std.io.ByteBuffer
 import std.io.InputStream
 
 public class ByteStringDecoder <: AbstractDecoder<ByteString> {
@@ -27,7 +27,7 @@ public class ByteStringDecoder <: AbstractDecoder<ByteString> {
     }
 
     private func decodeInfinitiveLength(): ByteString {
-        let bytes = ByteArrayStream()
+        let bytes = ByteBuffer()
         while (true) {
             let dataItem = decoder.getOrThrow().decodeNext()
             if (dataItem.isNone()) {
@@ -50,7 +50,7 @@ public class ByteStringDecoder <: AbstractDecoder<ByteString> {
     }
 
     private func decodeFixedLength(length: Int64): ByteString {
-        let bytes = ByteArrayStream(Int64(Int32(length)))
+        let bytes = ByteBuffer(length)
         var i = 0
         while (i < length) {
             bytes.write(UInt8(nextSymbol()))
