@@ -8,7 +8,7 @@ import cbor4cj.*
 
 @Test
 public class SpecialEncoderTest {
-    private var encoder: SpecialEncoder = SpecialEncoder(None, ByteArrayStream())
+    private var encoder: SpecialEncoder = SpecialEncoder(None, ByteBuffer())
 
     @TestCase
     public func shouldNotEncodeReserved(): Unit {

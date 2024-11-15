@@ -4,14 +4,14 @@
 import std.unittest.*
 import std.unittest.testmacro.*
 import cbor4cj.*
-import std.io.ByteArrayStream
+import std.io.ByteBuffer
 
 @Test
 public class ByteStringEncoderTest {
 
     @TestCase
     public func shouldEncodeChunkedString(): Unit {
-        let byteArrayOutputStream = ByteArrayStream()
+        let byteArrayOutputStream = ByteBuffer()
         let dataItems = CborBuilder().add(ByteString(None)).add(ByteString("test".toArray())).startByteString("test".toArray()).end().getOrThrow().build()
         CborEncoder(byteArrayOutputStream).encode(dataItems)
     }

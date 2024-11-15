@@ -20,14 +20,14 @@ public class AbstractNumberTest {
 
     public func shouldEncode() {
         var dataItems = CborBuilder().add(value).build()
-        var byteOutputStream = ByteArrayStream()
+        var byteOutputStream = ByteBuffer()
         var encoder = CborEncoder(byteOutputStream)
         encoder.encode(dataItems.first.getOrThrow())
         @Assert(encodedValue, byteOutputStream.bytes())
     }
 
     public func shouldDecode() {
-        var inputStream = ByteArrayStream()
+        var inputStream = ByteBuffer()
         inputStream.write(encodedValue)
         var decoder = CborDecoder(inputStream)
         var dataItem = decoder.decodeNext().getOrThrow()

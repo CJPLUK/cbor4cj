@@ -36,7 +36,7 @@ public class NegativeIntegerTest {
     }
 
     protected func shouldEncodeAndDecode(message: String, dataItem: DataItem) {
-        var byteArrayOutputStream = ByteArrayStream();
+        var byteArrayOutputStream = ByteBuffer();
         var encoder = CborEncoder(byteArrayOutputStream);
         encoder.encode(dataItem);
         var bytes = byteArrayOutputStream.bytes();

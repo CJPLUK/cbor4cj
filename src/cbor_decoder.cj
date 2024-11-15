@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights reserved.
  */
 package cbor4cj
 
@@ -7,7 +7,7 @@ import std.collection.LinkedList
 import std.collection.ArrayList
 import std.io.IOException
 import std.io.InputStream
-import std.io.ByteArrayStream
+import std.io.ByteBuffer
 
 /**
  * Decoder for the CBOR format based.
@@ -70,7 +70,7 @@ public class CborDecoder {
      *             if decoding failed
      */
     public static func decodeStatic(bytes: Array<UInt8>): LinkedList<DataItem> {
-        var stream = ByteArrayStream()
+        var stream = ByteBuffer()
         stream.write(bytes)
         return CborDecoder(stream).decode()
     }

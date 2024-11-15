@@ -3,7 +3,7 @@
 
 import std.unittest.*
 import std.unittest.testmacro.*
-import std.io.ByteArrayStream
+import std.io.ByteBuffer
 import cbor4cj.*
 
 @Test
@@ -40,7 +40,7 @@ public class ByteStringTest {
     }
 
     protected func shouldEncodeAndDecode(message: String, dataItem: DataItem) {
-        var byteArrayOutputStream = ByteArrayStream();
+        var byteArrayOutputStream = ByteBuffer();
         var encoder = CborEncoder(byteArrayOutputStream);
         encoder.encode(dataItem);
         var bytes = byteArrayOutputStream.bytes();

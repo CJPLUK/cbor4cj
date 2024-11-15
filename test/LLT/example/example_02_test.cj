@@ -42,7 +42,7 @@ public class Example02Test {
 
     //@TestCase
     public func Example14TestshouldEncode() {
-        var byteArrayOutputStream = ByteArrayStream();
+        var byteArrayOutputStream = ByteBuffer();
         var encoder = CborEncoder(byteArrayOutputStream);
         encoder.encode(NegativeInteger(BigInt("-18446744073709551617")));
         var except: Array<Byte> = [0xc3, 0x49, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
@@ -52,7 +52,7 @@ public class Example02Test {
 
     @TestCase
     public func Example14TestshouldDecode() {
-    	var byteArrayInputStream = ByteArrayStream()
+    	var byteArrayInputStream = ByteBuffer()
         byteArrayInputStream.write([0xc3, 0x49, 0x01, 0x00, 0x00, 0x00, 0x00,
     					0x00, 0x00, 0x00, 0x00])
     	var decoder = CborDecoder(byteArrayInputStream);
