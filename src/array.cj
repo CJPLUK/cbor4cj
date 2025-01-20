@@ -14,7 +14,7 @@ public open class CborArray <: ChunkableDataItem {
     }
 
     public func add(object: DataItem): CborArray {
-        objects.append(object)
+        objects.add(object)
         return this
     }
 

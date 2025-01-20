@@ -87,7 +87,7 @@ public class CborDecoder {
         var dataItem: ?DataItem
         dataItem = decodeNext()
         while (dataItem.isSome()) {
-            dataItems.append(dataItem.getOrThrow())
+            dataItems.addLast(dataItem.getOrThrow())
             dataItem = decodeNext()
         }
         return dataItems
