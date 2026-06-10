@@ -3,8 +3,6 @@
  */
 package cbor4cj
 
-import std.reflect.*
-
 public class AdditionalInformation <: Enum<AdditionalInformation>{
     public static let DIRECT = AdditionalInformation("DIRECT", 0, 0)
 

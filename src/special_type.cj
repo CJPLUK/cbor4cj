@@ -3,9 +3,6 @@
  */
 package cbor4cj
 
-import std.reflect.ClassTypeInfo
-import std.reflect.TypeInfo
-
 public class SpecialType <: Enum<SpecialType> {
     public static let SIMPLE_VALUE = SpecialType("SIMPLE_VALUE", 0)
 
